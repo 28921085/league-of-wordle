@@ -14,6 +14,9 @@
 		267AF84A27F5D32900E6514E /* league_of_wordleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267AF84927F5D32900E6514E /* league_of_wordleTests.swift */; };
 		267AF85427F5D32900E6514E /* league_of_wordleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267AF85327F5D32900E6514E /* league_of_wordleUITests.swift */; };
 		267AF85627F5D32900E6514E /* league_of_wordleUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267AF85527F5D32900E6514E /* league_of_wordleUITestsLaunchTests.swift */; };
+		26C3F89027FB456A005819D9 /* laugh.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 26C3F88F27FB456A005819D9 /* laugh.mp3 */; };
+		26C3F89227FB45B4005819D9 /* bgm.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 26C3F89127FB45B4005819D9 /* bgm.mp3 */; };
+		26C3F89427FB4B80005819D9 /* shareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C3F89327FB4B80005819D9 /* shareView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +47,9 @@
 		267AF84F27F5D32900E6514E /* league of wordleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "league of wordleUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		267AF85327F5D32900E6514E /* league_of_wordleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = league_of_wordleUITests.swift; sourceTree = "<group>"; };
 		267AF85527F5D32900E6514E /* league_of_wordleUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = league_of_wordleUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		26C3F88F27FB456A005819D9 /* laugh.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = laugh.mp3; sourceTree = "<group>"; };
+		26C3F89127FB45B4005819D9 /* bgm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bgm.mp3; sourceTree = "<group>"; };
+		26C3F89327FB4B80005819D9 /* shareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = shareView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +101,9 @@
 			isa = PBXGroup;
 			children = (
 				267AF83A27F5D32100E6514E /* ContentView.swift */,
+				26C3F89327FB4B80005819D9 /* shareView.swift */,
+				26C3F88F27FB456A005819D9 /* laugh.mp3 */,
+				26C3F89127FB45B4005819D9 /* bgm.mp3 */,
 				267AF83827F5D32100E6514E /* league_of_wordleApp.swift */,
 				267AF83C27F5D32800E6514E /* Assets.xcassets */,
 				267AF83E27F5D32800E6514E /* Preview Content */,
@@ -231,8 +240,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				26C3F89027FB456A005819D9 /* laugh.mp3 in Resources */,
 				267AF84027F5D32800E6514E /* Preview Assets.xcassets in Resources */,
 				267AF83D27F5D32800E6514E /* Assets.xcassets in Resources */,
+				26C3F89227FB45B4005819D9 /* bgm.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -258,6 +269,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				267AF83B27F5D32100E6514E /* ContentView.swift in Sources */,
+				26C3F89427FB4B80005819D9 /* shareView.swift in Sources */,
 				267AF83927F5D32100E6514E /* league_of_wordleApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
