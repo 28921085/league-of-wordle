@@ -6,8 +6,11 @@
 //
 
 import SwiftUI
-
 struct ContentView: View {
+    struct rec{
+        var word:String = " "
+        var color:Int = 0
+    }
     @State private var keyboard:[String]=["ㄅㄆㄇㄈ","ㄉㄊㄋㄌ","⇤ㄍㄎㄏ","⟳ㄐㄑㄒ","ㄓㄔㄕㄖ","↵ㄗㄘㄙ","ㄦㄧㄨㄩ","ㄚㄛㄜㄝ","ㄞㄟㄠㄡ","ㄢㄣㄤㄥ"]
     @State private var keyboard_color:[[Int]]=Array(repeating: Array(repeating: 0, count: 4), count: 10)
     @State private var input:[String]=[]
@@ -17,8 +20,9 @@ struct ContentView: View {
     @State private var ans_ch:String=""
     @State private var guess:Int=6
     @State private var guess_now:Int=0
-    @State private var record:[[String]]=Array(repeating: Array(repeating: "  ", count: 5), count: 6)
-    @State private var result_record:[[Int]]=Array(repeating: Array(repeating: 0, count: 5), count: 6)
+    //@State private var record:[[String]]=Array(repeating: Array(repeating: "  ", count: 5), count: 6)
+    //@State private var result_record:[[Int]]=Array(repeating: Array(repeating: 0, count: 5), count: 6)
+    @State private var record:[[rec]]=Array(repeating: Array(repeating: rec(), count: 5), count: 6)
     @State private var alertTitle:String=""
     @State private var warning:Bool=false
     @State private var data:[[String]]=Array(repeating:[], count: 25)
@@ -32,14 +36,14 @@ struct ContentView: View {
         var str=Array(ans_zu)
         var result=Array(repeating: 3, count: maxlen)
         for i in(0..<maxlen){
-            if String(str[i]) == record[guess_now][i]{
+            if String(str[i]) == record[guess_now][i].word{
                 str[i]="0"
                 result[i]=1
             }
         }
         for i in(0..<maxlen){
             for j in(0..<maxlen){
-                if String(str[i]) == record[guess_now][j] && String(str[i]) != "0"{
+                if String(str[i]) == record[guess_now][j].word && String(str[i]) != "0"{
                     str[i]="0"
                     result[j]=2
                 }
@@ -50,7 +54,7 @@ struct ContentView: View {
             for j in(0..<10){
                 for k in(0..<4){
                     let idx:String.Index=keyboard[j].index(keyboard[j].startIndex,offsetBy:k)
-                    if String(keyboard[j][idx...idx]) == record[guess_now][i]{
+                    if String(keyboard[j][idx...idx]) == record[guess_now][i].word{
                         if keyboard_color[j][k] == 0{
                             keyboard_color[j][k] = result[i]
                         }
@@ -63,7 +67,7 @@ struct ContentView: View {
         }
         //animate
         for i in (0..<maxlen){
-            result_record[guess_now][i]=result[i]
+            record[guess_now][i].color=result[i]
         }
     }
     var body: some View {
@@ -85,30 +89,89 @@ struct ContentView: View {
                         ans_zu = data[maxlen][idx]
                         ans_ch = data_ans[maxlen][idx]
                     }
-                    record=Array(repeating: Array(repeating: "  ", count: maxlen), count: guess)
-                    result_record=Array(repeating: Array(repeating: 0, count: maxlen), count: guess)
+                    record=Array(repeating: Array(repeating: rec(), count: maxlen), count: guess)
+                    //result_record=Array(repeating: Array(repeating: 0, count: maxlen), count: guess)
                     keyboard_color=Array(repeating: Array(repeating: 0, count: 4), count: 10)
                 }
-            //Text(ans_zu+ans_ch)
+            HStack(spacing:10){
+                HStack(spacing:3){
+                    Text("單字長度:")
+                    Button{
+                        maxlen = max(maxlen-1,2)
+                        record=Array(repeating: Array(repeating: rec(), count: maxlen), count: guess)
+                        //result_record=Array(repeating: Array(repeating: 0, count: maxlen), count: guess)
+                        keyboard_color=Array(repeating: Array(repeating: 0, count: 4), count: 10)
+                    }label:{
+                        Text("-")
+                    }
+                    Text("\(maxlen)")
+                    Button{
+                        maxlen = min(maxlen+1,10)
+                        record=Array(repeating: Array(repeating: rec(), count: maxlen), count: guess)
+                        //result_record=Array(repeating: Array(repeating: 0, count: maxlen), count: guess)
+                        keyboard_color=Array(repeating: Array(repeating: 0, count: 4), count: 10)
+                    }label:{
+                        Text("+")
+                    }
+                }
+                HStack(spacing:3){
+                    Text("猜題次數:")
+                    Button{
+                        guess = max(guess-1,3)
+                        record=Array(repeating: Array(repeating: rec(), count: maxlen), count: guess)
+                        //result_record=Array(repeating: Array(repeating: 0, count: maxlen), count: guess)
+                        keyboard_color=Array(repeating: Array(repeating: 0, count: 4), count: 10)
+                    }label:{
+                        Text("-")
+                    }
+                    Text("\(guess)")
+                    Button{
+                        guess = min(guess+1,10)
+                        record=Array(repeating: Array(repeating: rec(), count: maxlen), count: guess)
+                        //result_record=Array(repeating: Array(repeating: 0, count: maxlen), count: guess)
+                        keyboard_color=Array(repeating: Array(repeating: 0, count: 4), count: 10)
+                    }label:{
+                        Text("+")
+                    }
+                }
+            }
             VStack(spacing:5){//guesses
-                ForEach(0..<guess){i in
+               // ForEach(0..<guess){i in
+                ForEach (record.indices, id:\.self){ i in
                     HStack(spacing:5){
-                        ForEach(0..<maxlen){j in
-                            if result_record[i][j] == 0{//init
-                                Rectangle().fill(Color.gray).frame(width: CGFloat(250/maxlen), height: CGFloat(280/maxlen))
-                                    .overlay(Text(record[i][j]).font(.system(size:CGFloat(250/maxlen))))
+                       // ForEach(0..<maxlen){j in
+                        ForEach (i.indices,id:\.self){ j in
+                            /*if record[i][j].color == 0{//init
+                                Rectangle().fill(Color.gray).frame(width: CGFloat(250/maxlen), height: CGFloat(300/guess))
+                                    .overlay(Text(record[i][j].word).font(.system(size:CGFloat(250/maxlen))))
                             }
-                            else if result_record[i][j] == 1{//correct
-                                Rectangle().fill(correct).frame(width: CGFloat(250/maxlen), height: CGFloat(280/maxlen))
-                                    .overlay(Text(record[i][j]).font(.system(size:CGFloat(250/maxlen))))
+                            else if record[i][j].color == 1{//correct
+                                Rectangle().fill(correct).frame(width: CGFloat(250/maxlen), height: CGFloat(300/guess))
+                                    .overlay(Text(record[i][j].word).font(.system(size:CGFloat(250/maxlen))))
                             }
-                            else if result_record[i][j] == 2{//wrong position
-                                Rectangle().fill(wrong_pos).frame(width: CGFloat(250/maxlen), height: CGFloat(280/maxlen))
-                                    .overlay(Text(record[i][j]).font(.system(size:CGFloat(250/maxlen))))
+                            else if record[i][j].color == 2{//wrong position
+                                Rectangle().fill(wrong_pos).frame(width: CGFloat(250/maxlen), height: CGFloat(300/guess))
+                                    .overlay(Text(record[i][j].word).font(.system(size:CGFloat(250/maxlen))))
                             }
                             else{//wrong
-                                Rectangle().fill(wrong).frame(width: CGFloat(250/maxlen), height: CGFloat(280/maxlen))
-                                    .overlay(Text(record[i][j]).font(.system(size:CGFloat(250/maxlen))))
+                                Rectangle().fill(wrong).frame(width: CGFloat(250/maxlen), height: CGFloat(300/guess))
+                                    .overlay(Text(record[i][j].word).font(.system(size:CGFloat(250/maxlen))))
+                            }*/
+                            if j.color == 0{//init
+                                Rectangle().fill(Color.gray).frame(width: CGFloat(250/maxlen), height: CGFloat(300/guess))
+                                    .overlay(Text(j.word).font(.system(size:CGFloat(250/maxlen))))
+                            }
+                            else if j.color == 1{//correct
+                                Rectangle().fill(correct).frame(width: CGFloat(250/maxlen), height: CGFloat(300/guess))
+                                    .overlay(Text(j.word).font(.system(size:CGFloat(250/maxlen))))
+                            }
+                            else if j.color == 2{//wrong position
+                                Rectangle().fill(wrong_pos).frame(width: CGFloat(250/maxlen), height: CGFloat(300/guess))
+                                    .overlay(Text(j.word).font(.system(size:CGFloat(250/maxlen))))
+                            }
+                            else{//wrong
+                                Rectangle().fill(wrong).frame(width: CGFloat(250/maxlen), height: CGFloat(300/guess))
+                                    .overlay(Text(j.word).font(.system(size:CGFloat(250/maxlen))))
                             }
                         }
                     }
@@ -124,12 +187,16 @@ struct ContentView: View {
                                     if keyboard[i][idx...idx] == "⇤"{
                                         if len != 0{
                                             len-=1
-                                            record[guess_now][len]=" "
+                                            record[guess_now][len].word=" "
                                         }
                                     }
                                     else if keyboard[i][idx...idx] == "↵"{
                                         if len == maxlen{
-                                            var str:String = record[guess_now].joined()
+                                            //var str:String = record[guess_now].joined()
+                                            var str:String=""
+                                            for k in(0..<maxlen){
+                                                str += record[guess_now][k].word
+                                            }
                                             if str==ans_zu{
                                                 judge()
                                                 warning = true
@@ -162,10 +229,10 @@ struct ContentView: View {
                                     }
                                     else if keyboard[i][idx...idx] == "⟳"{
                                         len=0
-                                        record[guess_now] = Array(repeating: "  ", count: maxlen)
+                                        record[guess_now] = Array(repeating: rec(), count: maxlen)
                                     }
                                     else if len != maxlen{
-                                        record[guess_now][len] = (""+keyboard[i][idx...idx])
+                                        record[guess_now][len].word = (""+keyboard[i][idx...idx])
                                         len+=1
                                     }
                                 }
